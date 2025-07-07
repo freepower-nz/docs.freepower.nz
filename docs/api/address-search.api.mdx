@@ -1,0 +1,71 @@
+---
+id: address-search
+title: "AddressSearch"
+description: "Search for a valid address - useful for user input when the address can be malformatted or incomplete, this endpoint returns formatted address which can be used for ICP search."
+sidebar_label: "AddressSearch"
+hide_title: true
+hide_table_of_contents: true
+api: eJzVVE1v2zAM/SuEThuQj7rdiiK3oFiHYsBW7OOyogfGZmJtsqRKdNLCyH8fJTtN0m67N4cktkg+8vE9dYpxFdXsVl0FIu82FCZzr9XdSFUUy6A9a2fVTH0jDGUNSxcAYY1GV4BVFShGGEMbadmafCh/A2jrW4ZNTRa4pqfAEi0sCBo0EtkgM1XgUnTpGm+IaSThOgLZyjttGQJxG2yEffiu1KbW0s1QUDCrDH59eQMxNzpRI+U8BUztX1cywLzP7OeQU48BG8EMafpOWXmQqKG+nOs09X1L4VEeAt23OpDU4dDSSMWypgbVrFP86FNe5KDtSm23dyk4emcjxXR+enKSfo7J/PJJapbOMllOp+i90WXudforppDuJQSGgKkXzdTEv0Gnz0g9jJfGbQ5nuhR2UZoCNAZwjdrgwhB4gz21sNJr2dSOWrQVRBc4pt01sHiELAsoXWTAWMp2Ep6QwOTVrNiOnpCutK16mL74Hgz5GOUgXRijB2EiyvT9Ln7ToxQbBhkpUVtLr2mgNJJIq3ZJdyvirDau5WGKXk/XxXRIGsedGsU1650U22AktGb2cTadMkUeL3fmHEuB8em74qI4vzg7Pz97P8FWBCB+xHF0rQyIkYtJaO1ERKVSJ9ouXZaLZpNn2tWC+c21eu5zeZcp7CPS1CAN6CaLM1NZZva1yFScC59/Jqul3vv8k0kxKZTo0Au7DWYpD2QODoQnCx4hd3tDvMbLZjAji5SnwprcHsJB3mQ3LP9WbK4TV4V8PROArKkWvlJQ1y0w0o9gttv0ur+BkiwqHZPyRFNLNJH+Q9+br8N19Rb+1Vlvsb12B4+prJi1rDdBCeydxIqmKgoHzpyXJXk+yHpxfx054OOH73I7/QGaJDhW
+sidebar_class_name: "get api-method"
+info_path: docs/api/freepower-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"AddressSearch"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/api/v1/address-search"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Search for a valid address - useful for user input when the address can be malformatted or incomplete, this endpoint returns formatted address which can be used for ICP search.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"address","in":"query","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"array","items":{"type":"string"}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

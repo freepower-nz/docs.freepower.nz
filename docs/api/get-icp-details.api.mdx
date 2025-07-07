@@ -1,0 +1,71 @@
+---
+id: get-icp-details
+title: "GetIcpDetails"
+description: "Returns detailed information about a specific ICP, such as metering setup and network configuration. Useful for understanding why some addresses receive better or worse pricing options."
+sidebar_label: "GetIcpDetails"
+hide_title: true
+hide_table_of_contents: true
+api: eJzVVstu2zoQ/RWCqxbwI+4jCLwL3HsL47apkbabBlnQ1NhmK4ksZ5TEEPzvnaHkxLHlNs3urixz3mdmeFhrMkvU4yv9bwQI/hbi4Dw4fd3TGaCNLpDzpR7rS6AqlqgyIONyyJQrFz4WRsTKzH1FyigMYN3CWTWdzHoKK7tSBlUBBNGVS4XsIyhTZqoEuvXxh7K+XLhlFZObgfqKsKhyxY5VVWYQkVhZLG9Xa4W+AGWyLAIioIpgwd2AmgOxe8Um7BFBheismPiUOQ50T/sATYRpxpW8B5ra8C7VgSwNJpqUosBQ65L/sJazgbV72knxwdCKvyP8rFwEdkKxgp5Gu4LC6HGtaR3ECEnq1JvNtShj4PiAIn91ciI/jyH99B/7ZAQIShKpCSF3NiU6/I6iUh+G8PPvYEnSjlIWuSaAyzrS6OkWrm5ZBDPtNouwbNHqFKYJiEfECcov6bRDCnfBR5qYYKyj9Y5KWRVziFxXM1V8kvlqnoMYtdMi2g8tuJKae027GA1vZWafBVLT8Q6BOO1oboLVSZtMPtsJsDA58lSQo1z0L9qsdyB7dh+PpPjUVC638aWoZj/2wcycOJ1X5OOMNWBiCJY+ric+E3z3xR88YhL9EfTfOu6q9Wio59c/a2vejmdH/QWEmWFr64IpKa3+46OLZtDam+KPZR/4696VgwhHV2p3iU2MZi2XE0GBh5Ww9mcu0uS6WWXkg0lzzwiQT8r+wcexC+LA62/y2+/bUxv3UfL4W/2/Gg2mAvEv+nf9PC/6i+igzPL19pKHO64QhUoSPfwAluyr9vSNyStoTOTyZ/xWXshmCQlc4Y+xHprghjejIXMLDuvEMBuWIsSbLftUkQHXK6KA4+GQAImjtMTcZ/P+qzejs9Hp2evT09dvB6ZiRE3uTB+ZgFdgkEaDWJUDphIteQhJJ/zbau9JXp3Ppnqf4/kscW+jEXJTKk7AbUmeedv6gunSMTkx/6uLb8KukntjfzIYDUbNxYlUmERgLZ0y6SqGWj3Q7qPQ9QMP/q9fGu2cEw/NkPHjxwOjkXpat0NwxTTvBLWR7AcPAv+Mm8cG92vFwIlOXc8NwteYbzZy/LOCyGN3dS2DxkspvCjTwlelfGf3U30U1BeX7Q3xUh1Lc7u75c48a/5sJr5JcXPNijxnmXDZ/TacWwuBdqwOXjKPduL9P1945X4BbXyrCg==
+sidebar_class_name: "get api-method"
+info_path: docs/api/freepower-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"GetIcpDetails"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/api/v1/icps/{icpId}"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Returns detailed information about a specific ICP, such as metering setup and network configuration. Useful for understanding why some addresses receive better or worse pricing options.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"icpId","in":"path","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"object","properties":{"id":{"type":"string"},"address":{"type":"string"},"areaId":{"type":"string"},"regionId":{"type":"string"},"retailerId":{"type":"string"},"meterType":{"type":"string"},"exportCapacity":{"type":"number","format":"double"},"network":{"required":["id","name","poc"],"type":"object","properties":{"id":{"type":"string"},"name":{"type":"string"},"poc":{"type":"string"}},"additionalProperties":false,"title":"Network"},"retailer":{"type":"object","properties":{"id":{"type":"string"},"name":{"type":"string"}},"additionalProperties":false,"title":"Retailer"},"pricing":{"required":["distributorPriceCategoryCode","distributorPriceLossCode"],"type":"object","properties":{"distributorPriceCategoryCode":{"type":"string"},"distributorPriceLossCode":{"type":"string"}},"additionalProperties":false,"title":"Pricing"},"metering":{"required":["mepParticipantId","mepParticipantName","meters"],"type":"object","properties":{"mepParticipantId":{"type":"string"},"mepParticipantName":{"type":"string"},"meters":{"type":"array","items":{"required":["meterSerial","registerContentCodes"],"type":"object","properties":{"meterSerial":{"type":"string"},"registerContentCodes":{"type":"array","items":{"type":"string"}}},"additionalProperties":false,"title":"Meter"}}},"additionalProperties":false,"title":"Metering"}},"additionalProperties":false,"title":"Icp"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

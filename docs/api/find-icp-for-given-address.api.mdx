@@ -1,0 +1,71 @@
+---
+id: find-icp-for-given-address
+title: "FindIcpForGivenAddress"
+description: "Needs a validated address to perform a search for icp - can return multiple icps"
+sidebar_label: "FindIcpForGivenAddress"
+hide_title: true
+hide_table_of_contents: true
+api: eJzVVE1vGjEQ/SuWT60ES0jaKOKGqiaKKqVRPy6NOAzeAZzu2o49S4JW/PfOeAksTXLsoVyQ1/P15r3nVhMsk57c6cuIGPwjxmIarJ4NdInJRBvIeqcn+gaxTArUGipbAmGpoCwjpqTIq4Bx4WPN1wkhmpXik7ImqKEy4FREaqJTdVORDRXKTdID7TkNpPx1yQ0urSuvTbj08cqu0U276hwWIEKNhFHGbLXjA4fD/t7KeA8Nxg0fIj40NiIXpNjgQCezwhr0pNW0CZKXKFq31NvtTIJT8C5hkvvTkxP5O0b99QvXNN4ROpJbCKGyJg89uk8S0r5sATGCzGIJ69T77uf3aEgQRYFOtmvM23hlvsEe4Suz50srU0B12yu2gCoxaLJUSTyv83vmg1PkN9BPw0XlH/t7/ORrXjAytVWlYA22gjlTFCpwKdO4FDb2ZIMrVfKRmHZGreYblTWjjE+kIBl0pYzIiydkWKfbwb6TENy16YofmgEdd+mlM0v4xNtPjLXj/zduuNgOyECzHhv8nwAJJJbzyovol5j1ALTiwwiCHa3Ho509Esb1s+ibWHHAiiikyWhEmGi4ePbrkNOGpx/GF+Pzi7Pz87OPBTSsFPYpDJNvGBYkGhexcQXLV0t/6xY+62onlL331fT2Wv9tff6WF9dFCFbFA9g62yAv0OSdWzaEsk7d/CqEGJ69yz8pxsVYFB14pzVk0/RWqFimim2vsu/VwfhHU7QHG/6Lt2jnMGKxjRghvyk8b956u6Pnjs1vBddYrC1ZvMgVI5Krtp1Dwp+x2m7lc/caCXGlTaKIcu/NN0G9+7Z7ut6rt+bppH/Q1E77OnO6ZgKkFbedcSyzXmLsOWZqDAbqZb14y46UefX5B78afwC4pRqQ
+sidebar_class_name: "get api-method"
+info_path: docs/api/freepower-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"FindIcpForGivenAddress"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/api/v1/icps"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Needs a validated address to perform a search for icp - can return multiple icps
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"address","in":"query","required":true,"schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"array","items":{"type":"object","properties":{"icp":{"type":"string"},"address":{"type":"string"}},"additionalProperties":false,"title":"IcpSearch"}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

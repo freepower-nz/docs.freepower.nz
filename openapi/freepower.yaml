@@ -1,0 +1,940 @@
+openapi: 3.0.4
+info:
+  title: Freepower API
+  description: API for power plan estimation and comparison in NZ.
+  version: 0.1.1
+servers:
+  - url: 'https://test-freepower-api-241816836635.australia-southeast1.run.app'
+paths:
+  /api/actions/v1/find-icp:
+    post:
+      tags:
+        - Freepower.Api
+      description: 'Attempts to find ICPs for a given address. If the address is vague, returns a list of address suggestions without ICPs. When a single address is confirmed, returns one or more ICPs matched to it. Use this before calling estimation or recommendation actions.'
+      operationId: FindIcpByAddress
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FindIcpRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IcpAddress'
+      x-llm-friendly: true
+  /api/actions/v1/recommend-plans-for-icp:
+    post:
+      tags:
+        - Freepower.Api
+      description: Recommends the cheapest power plans for a given ICP using average usage in the region. Ideal for quick checks when no personal data is available. Use `/find-icp` if you need to look up your ICP by address.
+      operationId: RecommendPlansForIcp
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecommendPlansForIcpRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanRecommendationResult'
+      x-llm-friendly: true
+      x-llm-primary-fields:
+        - Total
+  /api/actions/v1/recommend-plans-for-power-bill:
+    post:
+      tags:
+        - Freepower.Api
+      description: 'Recommends the cheapest power plans based on an uploaded PDF power bill. No further input is needed if parsing succeeds. If parsing fails or is partial, try extracting key fields locally and use /recommend-plans-for-what-you-tell-me instead.'
+      operationId: RecommendPlansForPowerBill
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+                - file
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+            encoding:
+              file:
+                style: form
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanRecommendationForPowerBillResult'
+      x-llm-primary-fields:
+        - Total
+  /api/actions/v1/recommend-plans-for-what-you-tell-me:
+    post:
+      tags:
+        - Freepower.Api
+      description: 'Recommends power plans based on user-provided info like household size, usage habits, or lifestyle. Use this when no bill or meter data is available, or if bill parsing fails and usage must be estimated from locally extracted data.'
+      operationId: RecommendPlansForWhatYouTellMe
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecommendPlansForWhatYouTellMeRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanRecommendationResult'
+      x-llm-friendly: true
+      x-llm-primary-fields:
+        - Total
+  '/api/v1/icps/{icpId}/plans':
+    get:
+      tags:
+        - Freepower.Api
+      description: 'Returns general info about all publicly available power plans for the given ICP/address, including tariff structures, bonuses, retailer links, and descriptions. Use this to explore what plans exist — not for cost or usage-based recommendations. For price comparisons or plan recommendations, use the recommend-plans-for-icp endpoint.'
+      operationId: GetPlansForIcp
+      parameters:
+        - name: icpId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: planId
+          in: query
+          schema:
+            type: string
+        - name: retailerId
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EvaluatedPlan'
+      x-llm-primary-fields:
+        - Total
+  /api/v1/power-bills/actions/parse:
+    post:
+      tags:
+        - Freepower.Api
+      description: Parses a power bill PDF and extracts structured data such as usage and billing details. This helper endpoint is for internal use only and must not be used for estimations or accessed by LLMs.
+      operationId: ParsePowerBill
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+                - file
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+            encoding:
+              file:
+                style: form
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PowerBill'
+  /privacy-policy:
+    get:
+      tags:
+        - Freepower.Api
+      summary: Get Free Power’s Privacy Policy
+      description: 'Returns the full privacy policy in HTML format, explaining what data is collected, how it’s used, and your rights under New Zealand law.'
+      operationId: GetPrivacyPolicy
+      responses:
+        '200':
+          description: OK
+      x-flow:
+        - name: LegalInfo
+          step: 1
+      x-llm-friendly: true
+  /api/v1/address-search:
+    get:
+      tags:
+        - Freepower.Api
+      description: 'Search for a valid address - useful for user input when the address can be malformatted or incomplete, this endpoint returns formatted address which can be used for ICP search.'
+      operationId: AddressSearch
+      parameters:
+        - name: address
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+      x-flow:
+        - name: Compares all available plans for given address and sorts them by power cost ascending
+          step: 1
+        - name: Finds all plans available at given address
+          step: 1
+  /api/v1/icps:
+    get:
+      tags:
+        - Freepower.Api
+      description: Needs a validated address to perform a search for icp - can return multiple icps
+      operationId: FindIcpForGivenAddress
+      parameters:
+        - name: address
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IcpSearch'
+      x-flow:
+        - name: Compares all available plans for given address and sorts them by power cost ascending
+          step: 2
+        - name: Finds all plans available at given address
+          step: 2
+  '/api/v1/icps/{icpId}':
+    get:
+      tags:
+        - Freepower.Api
+      description: 'Returns detailed information about a specific ICP, such as metering setup and network configuration. Useful for understanding why some addresses receive better or worse pricing options.'
+      operationId: GetIcpDetails
+      parameters:
+        - name: icpId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Icp'
+      x-llm-friendly: true
+  '/api/v1/icps/{icpId}/cost-estimations':
+    post:
+      tags:
+        - Freepower.Api
+      description: Estimate usage based on household profile
+      operationId: GetCostEstimationsForIcpAndUsage
+      parameters:
+        - name: icpId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: from
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: to
+          in: query
+          schema:
+            type: string
+            format: date-time
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Onion'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CostEstimationResponse'
+      x-llm-primary-fields:
+        - Total
+  /api/v1/usage-estimations:
+    post:
+      tags:
+        - Freepower.Api
+      operationId: GetUsageEstimationForHousehold
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EstimatedUsageRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Onion'
+  /api/v1/cost-estimations:
+    post:
+      tags:
+        - Freepower.Api
+      operationId: GetCostEstimationsForUsageAndPlans
+      parameters:
+        - name: from
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: to
+          in: query
+          schema:
+            type: string
+            format: date-time
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CostEstimationRequest'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CostEstimationResponse'
+      x-llm-primary-fields:
+        - Total
+components:
+  schemas:
+    CostEstimationRequest:
+      type: object
+      properties:
+        onion:
+          $ref: '#/components/schemas/Onion'
+        plans:
+          type: array
+          items:
+            $ref: '#/components/schemas/EvaluatedPlan'
+      additionalProperties: false
+    CostEstimationResponse:
+      type: object
+      properties:
+        planCostEstimations:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlanCostEstimation'
+      additionalProperties: false
+    CurrentSupplyInfo:
+      type: object
+      properties:
+        retailerId:
+          type: string
+          description: Retailer identifier for the current supply.
+        retailerName:
+          type: string
+          description: Retailer name for the current supply.
+        areaId:
+          type: string
+          description: Area identifier where the supply is located.
+        areaName:
+          type: string
+          description: Area name where the supply is located.
+        networkId:
+          type: string
+          description: Network identifier for the distribution network.
+        regionName:
+          type: string
+          description: Network identifier for the distribution network.
+      additionalProperties: false
+      description: Contains information about the user's current energy supply setup.
+    DayType:
+      enum:
+        - 0
+        - 1
+        - 2
+      type: integer
+      format: int32
+    EstimatedUsageRequest:
+      type: object
+      properties:
+        areaId:
+          type: string
+        householdProfile:
+          $ref: '#/components/schemas/HouseholdProfile'
+        usageData:
+          $ref: '#/components/schemas/SampleUsageData'
+      additionalProperties: false
+    EvaluatedPlan:
+      type: object
+      properties:
+        planId:
+          type: string
+          description: The unique ID of the plan. This can be used to request full details via another API call.
+        planName:
+          type: string
+          description: The display name of the plan.
+        retailerName:
+          type: string
+          description: The name of the retailer offering this plan.
+        isLowUser:
+          type: boolean
+          description: Indicates whether the plan is a low user plan (true) or a standard user plan (false).
+        dailyConnectionFee:
+          type: number
+          description: The daily fixed connection fee for the plan.
+          format: double
+        totalAnnualCost:
+          type: number
+          description: |-
+            The total estimated annual cost for this plan at the given address or ICP, based on typical usage.
+            This value does not include credits or special adjustments.
+          format: double
+          nullable: true
+        effectiveAnnualCost:
+          type: number
+          description: |-
+            The effective annual cost after applying credits, offsets, or plan-specific adjustments.
+            Used for plan comparison and sorting.
+          format: double
+          nullable: true
+        credit:
+          type: number
+          description: Any credit or sign-up bonus offered by the retailer (e.g. account credit).
+          format: double
+          nullable: true
+        tags:
+          type: array
+          items:
+            type: string
+          description: Optional tags describing notable features of the plan. Can be used for filtering or search.
+          nullable: true
+        planDescription:
+          type: string
+          description: |-
+            Short human-readable description of the plan, such as eligibility criteria or general information.
+            May include switching hints but is not guaranteed to.
+          nullable: true
+        switchingLink:
+          type: string
+          description: A URL pointing to the switching or sign-up page on the retailer's website.
+        planDetails:
+          $ref: '#/components/schemas/PlanDetails'
+        planCostDetails:
+          $ref: '#/components/schemas/PlanCosts'
+      additionalProperties: false
+      description: |-
+        An evaluated power plan, either as part of a summary comparison or a detailed estimate for a specific plan.
+        Includes cost estimates, plan metadata, and optional tariff details.
+    FindIcpRequest:
+      type: object
+      properties:
+        address:
+          type: string
+          description: |-
+            The free-form or partial address input from the user.
+            This will be matched using address autocomplete and ICP registry lookup.
+      additionalProperties: false
+      description: Request payload to find ICPs based on an address input.
+    HouseholdProfile:
+      type: object
+      properties:
+        type:
+          type: string
+        houseSize:
+          type: string
+          nullable: true
+        averageDailyImport:
+          type: number
+          format: double
+          nullable: true
+        solarArraySize:
+          type: number
+          format: double
+          nullable: true
+      additionalProperties: false
+    Icp:
+      type: object
+      properties:
+        id:
+          type: string
+        address:
+          type: string
+        areaId:
+          type: string
+        regionId:
+          type: string
+        retailerId:
+          type: string
+        meterType:
+          type: string
+        exportCapacity:
+          type: number
+          format: double
+        network:
+          $ref: '#/components/schemas/Network'
+        retailer:
+          $ref: '#/components/schemas/Retailer'
+        pricing:
+          $ref: '#/components/schemas/Pricing'
+        metering:
+          $ref: '#/components/schemas/Metering'
+      additionalProperties: false
+    IcpAddress:
+      type: object
+      properties:
+        address:
+          type: string
+          description: 'The formatted address (e.g., "4 Karo Place, Glendene").'
+        icpId:
+          type: string
+          description: 'The ICP ID linked to this address, if available. Will be null if not yet resolved.'
+          nullable: true
+      additionalProperties: false
+      description: A formatted address optionally linked to an ICP ID.
+    IcpSearch:
+      type: object
+      properties:
+        icp:
+          type: string
+        address:
+          type: string
+      additionalProperties: false
+    IntervalUsage:
+      type: object
+      properties:
+        fromDate:
+          type: string
+          description: 'Start date of the interval, in ISO 8601 format (yyyy-MM-dd).'
+        toDate:
+          type: string
+          description: 'End date of the interval, in ISO 8601 format (yyyy-MM-dd).'
+        importedKwh:
+          type: number
+          description: |-
+            Total imported energy (kWh) used during the interval.
+            Provided by the user or extracted from a power bill.
+          format: double
+        exportedKwh:
+          type: number
+          description: 'Optional total exported energy (kWh) during the interval, if solar export is known (e.g. from a bill).'
+          format: double
+          nullable: true
+      additionalProperties: false
+      description: |-
+        Actual or estimated usage for a specific time period. 
+        Use this when the user provides usage for a known interval — such as from a power bill.
+    Layer:
+      type: object
+      properties:
+        name:
+          type: string
+        isShiftable:
+          type: boolean
+        from:
+          type: string
+          format: date-time
+        to:
+          type: string
+          format: date-time
+        slots:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: number
+              format: double
+      additionalProperties: false
+    Meter:
+      required:
+        - meterSerial
+        - registerContentCodes
+      type: object
+      properties:
+        meterSerial:
+          type: string
+        registerContentCodes:
+          type: array
+          items:
+            type: string
+      additionalProperties: false
+    Metering:
+      required:
+        - mepParticipantId
+        - mepParticipantName
+        - meters
+      type: object
+      properties:
+        mepParticipantId:
+          type: string
+        mepParticipantName:
+          type: string
+        meters:
+          type: array
+          items:
+            $ref: '#/components/schemas/Meter'
+      additionalProperties: false
+    Network:
+      required:
+        - id
+        - name
+        - poc
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        poc:
+          type: string
+      additionalProperties: false
+    Onion:
+      type: object
+      properties:
+        layers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Layer'
+      additionalProperties: false
+    PlanAccuracy:
+      enum:
+        - 0
+        - 1
+        - 2
+      type: integer
+      format: int32
+    PlanConditions:
+      type: object
+      properties:
+        url:
+          type: string
+          nullable: true
+        items:
+          type: array
+          items:
+            type: string
+          nullable: true
+      additionalProperties: false
+    PlanCost:
+      type: object
+      properties:
+        total:
+          type: number
+          format: double
+        import:
+          type: number
+          format: double
+        export:
+          type: number
+          format: double
+        dailyFees:
+          type: number
+          format: double
+      additionalProperties: false
+    PlanCostEstimation:
+      type: object
+      properties:
+        evaluatedPlan:
+          $ref: '#/components/schemas/EvaluatedPlan'
+        planCost:
+          $ref: '#/components/schemas/PlanCosts'
+      additionalProperties: false
+    PlanCosts:
+      type: object
+      properties:
+        totalCosts:
+          $ref: '#/components/schemas/PlanCost'
+        monthlyCost:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/PlanCost'
+      additionalProperties: false
+    PlanDetails:
+      type: object
+      properties:
+        retailerId:
+          type: string
+        areaId:
+          type: string
+        regionId:
+          type: string
+        regionName:
+          type: string
+        networkId:
+          type: string
+        planAccuracy:
+          $ref: '#/components/schemas/PlanAccuracy'
+        details:
+          type: array
+          items:
+            type: string
+        planConditions:
+          $ref: '#/components/schemas/PlanConditions'
+        importRates:
+          type: array
+          items:
+            $ref: '#/components/schemas/Rate'
+          nullable: true
+        exportRates:
+          type: array
+          items:
+            $ref: '#/components/schemas/Rate'
+          nullable: true
+      additionalProperties: false
+    PlanRecommendationForPowerBillResult:
+      type: object
+      properties:
+        estimatedUsage:
+          $ref: '#/components/schemas/SimpleEstimatedUsage'
+        recommendedPlans:
+          type: array
+          items:
+            $ref: '#/components/schemas/EvaluatedPlan'
+          description: |-
+            A list of evaluated power plans (public and/or custom),
+            sorted by effective annual cost (after credits or other adjustments), from lowest to highest.
+        powerBill:
+          $ref: '#/components/schemas/PowerBill'
+        powerBillEvaluatedPlan:
+          $ref: '#/components/schemas/EvaluatedPlan'
+      additionalProperties: false
+      description: |-
+        A plan recommendation result based on a parsed power bill.
+        Combines power bill info, usage estimation, the evaluated current plan,
+        and a list of alternative recommended plans evaluated using the same usage.
+    PlanRecommendationResult:
+      type: object
+      properties:
+        estimatedUsage:
+          $ref: '#/components/schemas/SimpleEstimatedUsage'
+        recommendedPlans:
+          type: array
+          items:
+            $ref: '#/components/schemas/EvaluatedPlan'
+          description: |-
+            A list of evaluated power plans (public and/or custom),
+            sorted by effective annual cost (after credits or other adjustments), from lowest to highest.
+      additionalProperties: false
+      description: |-
+        The result of a plan recommendation request.
+        Contains the usage estimation used for evaluation and a list of recommended plans,
+        sorted by effective annual cost (after credits or adjustments).
+    PowerBill:
+      type: object
+      properties:
+        icpId:
+          type: string
+          description: The ICP (Installation Control Point) identifier.
+        address:
+          type: string
+          description: Address.
+        fromDate:
+          type: string
+          description: The start date of the billing period (ISO 8601 format).
+        toDate:
+          type: string
+          description: The end date of the billing period (ISO 8601 format).
+        dailyCharge:
+          type: number
+          description: Daily fixed charge applied during the billing period (in dollars per day).
+          format: double
+        importedKwh:
+          type: number
+          description: Total energy imported from the grid in kilowatt-hours (kWh).
+          format: double
+        importedCost:
+          type: number
+          description: Total cost for the imported energy (in dollars).
+          format: double
+        importedRatePerKwh:
+          type: number
+          description: Effective rate per kilowatt-hour (kWh) for imported energy.
+          format: double
+        exportedKwh:
+          type: number
+          description: 'Total energy exported to the grid in kilowatt-hours (kWh), if available.'
+          format: double
+          nullable: true
+        exportedRatePerKwh:
+          type: number
+          description: 'Rate paid by the retailer per kilowatt-hour (kWh) of exported energy, if available.'
+          format: double
+          nullable: true
+        exportedTotalCredit:
+          type: number
+          description: 'Total credit received for exported energy (in dollars), if applicable.'
+          format: double
+          nullable: true
+        totalCost:
+          type: number
+          description: 'Total amount payable on the bill (includes daily charges and imported costs, minus export credits if any).'
+          format: double
+        retailerId:
+          type: string
+          description: Retailer identifier associated with the bill.
+        retailerName:
+          type: string
+          description: Retailer name associated with the bill.
+        parsingStatus:
+          $ref: '#/components/schemas/PowerBillParsingStatus'
+        currentSupplyInfo:
+          $ref: '#/components/schemas/CurrentSupplyInfo'
+      additionalProperties: false
+      description: Represents a parsed electricity power bill with usage and cost details.
+    PowerBillParsingStatus:
+      enum:
+        - 0
+        - 1
+      type: integer
+      description: Indicates the status of the power bill parsing process.
+      format: int32
+    Pricing:
+      required:
+        - distributorPriceCategoryCode
+        - distributorPriceLossCode
+      type: object
+      properties:
+        distributorPriceCategoryCode:
+          type: string
+        distributorPriceLossCode:
+          type: string
+      additionalProperties: false
+    Rate:
+      type: object
+      properties:
+        dayType:
+          $ref: '#/components/schemas/DayType'
+        from:
+          type: string
+          format: date-span
+        to:
+          type: string
+          format: date-span
+        pricePerKwh:
+          type: number
+          format: double
+      additionalProperties: false
+    RecommendPlansForIcpRequest:
+      type: object
+      properties:
+        icpId:
+          type: string
+          description: 'The ICP identifier used to look up region, network, and historical averages.'
+        planId:
+          type: string
+          description: 'Optional. If provided, returns a detailed cost breakdown for this specific plan.'
+          nullable: true
+      additionalProperties: false
+      description: |-
+        Request for plan recommendations using typical usage data for a given ICP. 
+        If no plan ID is provided, the response will return a summary comparison of all available plans.
+        If a plan ID is provided, the response will include detailed cost estimation for that specific plan only.
+    RecommendPlansForWhatYouTellMeRequest:
+      type: object
+      properties:
+        icpId:
+          type: string
+          description: |-
+            The ICP identifier, if known. Required for plan lookup at a specific address.
+            Leave null for generic estimation based on usage only.
+          nullable: true
+        dailyImportedKwh:
+          type: number
+          description: Estimated average daily usage in kilowatt-hours (e.g. "I use 20 kWh per day").
+          format: double
+          nullable: true
+        annualImportedKwh:
+          type: number
+          description: 'Estimated annual usage in kilowatt-hours (e.g. "I use 7,000 kWh per year").'
+          format: double
+          nullable: true
+        interval:
+          $ref: '#/components/schemas/IntervalUsage'
+      additionalProperties: false
+      description: |-
+        Request for plan recommendations based on user-provided usage information. 
+        The user can provide estimated daily, annual, or interval-based usage. Only one type of usage should be provided.
+    Retailer:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      additionalProperties: false
+    SampleUsageData:
+      type: object
+      properties:
+        imported:
+          type: number
+          format: double
+        exported:
+          type: number
+          format: double
+          nullable: true
+        usedDirectly:
+          type: number
+          format: double
+          nullable: true
+        from:
+          type: string
+          format: date-time
+        to:
+          type: string
+          format: date-time
+      additionalProperties: false
+    SimpleEstimatedUsage:
+      type: object
+      properties:
+        yearlyUsage:
+          type: number
+          description: 'Total estimated electricity usage over one year, measured in kilowatt-hours (kWh).'
+          format: double
+        monthlyUsage:
+          type: object
+          additionalProperties:
+            type: number
+            format: double
+          description: |-
+            Estimated electricity usage per month.
+            Keys are strings in the format "yyyy-MM" and values are usage in kilowatt-hours (kWh).
+        typicalDayUsagePatternInPercent:
+          type: array
+          items:
+            type: number
+            format: double
+          description: |-
+            A normalized pattern of electricity usage throughout a typical day.
+            This array contains 24 decimal values representing the percentage share (0.0 to 1.0)
+            of total daily usage that occurs in each hour, from 0:00 to 23:00.
+            Values should sum to 1.0.
+      additionalProperties: false
+      description: |-
+        Represents an estimated electricity usage profile based on annual consumption,
+        including monthly breakdowns and a normalized pattern for a typical day's usage.

@@ -75,3 +75,43 @@
   content: "patch";
   background-color: var(--openapi-code-orange);
 }
+
+/* Force sidebar container to 380px */
+.theme-doc-sidebar-container {
+  flex: 0 0 380px !important;
+  max-width: 380px !important;
+  width: 380px !important;
+}
+
+/* Sidebar menu inside (OpenAPI plugin sometimes injects this) */
+.menu.thin-scrollbar {
+  width: 380px !important;
+  max-width: 380px !important;
+}
+
+/* Sidebar link font size */
+.theme-doc-sidebar-menu .menu__link {
+  font-size: 14px !important;
+  line-height: 1.4;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+/* Sidebar link font size */
+.theme-doc-sidebar-menu .menu__link {
+  font-size: 14px !important;
+  line-height: 1.4;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+/* Remove unwanted gap between sidebar and content */
+.theme-doc-main-container {
+  padding-left: 0 !important;
+}
+
+.container.padding-top--md.padding-bottom--lg {
+  max-width: 85% !important;
+  padding: 0 !important;
+  margin: 10px 50px !important;
+}

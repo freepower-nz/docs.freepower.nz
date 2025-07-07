@@ -1,0 +1,71 @@
+---
+id: get-plans-for-icp
+title: "GetPlansForIcp"
+description: "Returns general info about all publicly available power plans for the given ICP/address, including tariff structures, bonuses, retailer links, and descriptions. Use this to explore what plans exist — not for cost or usage-based recommendations. For price comparisons or plan recommendations, use the recommend-plans-for-icp endpoint."
+sidebar_label: "GetPlansForIcp"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "get api-method"
+info_path: docs/api/freepower-api
+custom_edit_url: null
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"GetPlansForIcp"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/api/v1/icps/{icpId}/plans"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Returns general info about all publicly available power plans for the given ICP/address, including tariff structures, bonuses, retailer links, and descriptions. Use this to explore what plans exist — not for cost or usage-based recommendations. For price comparisons or plan recommendations, use the recommend-plans-for-icp endpoint.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"icpId","in":"path","required":true,"schema":{"type":"string"}},{"name":"planId","in":"query","schema":{"type":"string"}},{"name":"retailerId","in":"query","schema":{"type":"string"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"OK","content":{"application/json":{"schema":{"type":"array","items":{"type":"object","properties":{"planId":{"type":"string","description":"The unique ID of the plan. This can be used to request full details via another API call."},"planName":{"type":"string","description":"The display name of the plan."},"retailerName":{"type":"string","description":"The name of the retailer offering this plan."},"isLowUser":{"type":"boolean","description":"Indicates whether the plan is a low user plan (true) or a standard user plan (false)."},"dailyConnectionFee":{"type":"number","description":"The daily fixed connection fee for the plan.","format":"double"},"totalAnnualCost":{"type":"number","description":"The total estimated annual cost for this plan at the given address or ICP, based on typical usage.\nThis value does not include credits or special adjustments.","format":"double","nullable":true},"effectiveAnnualCost":{"type":"number","description":"The effective annual cost after applying credits, offsets, or plan-specific adjustments.\nUsed for plan comparison and sorting.","format":"double","nullable":true},"credit":{"type":"number","description":"Any credit or sign-up bonus offered by the retailer (e.g. account credit).","format":"double","nullable":true},"tags":{"type":"array","items":{"type":"string"},"description":"Optional tags describing notable features of the plan. Can be used for filtering or search.","nullable":true},"planDescription":{"type":"string","description":"Short human-readable description of the plan, such as eligibility criteria or general information.\nMay include switching hints but is not guaranteed to.","nullable":true},"switchingLink":{"type":"string","description":"A URL pointing to the switching or sign-up page on the retailer's website."},"planDetails":{"type":"object","properties":{"retailerId":{"type":"string"},"areaId":{"type":"string"},"regionId":{"type":"string"},"regionName":{"type":"string"},"networkId":{"type":"string"},"planAccuracy":{"enum":[0,1,2],"type":"integer","format":"int32","title":"PlanAccuracy"},"details":{"type":"array","items":{"type":"string"}},"planConditions":{"type":"object","properties":{"url":{"type":"string","nullable":true},"items":{"type":"array","items":{"type":"string"},"nullable":true}},"additionalProperties":false,"title":"PlanConditions"},"importRates":{"type":"array","items":{"type":"object","properties":{"dayType":{"enum":[0,1,2],"type":"integer","format":"int32","title":"DayType"},"from":{"type":"string","format":"date-span"},"to":{"type":"string","format":"date-span"},"pricePerKwh":{"type":"number","format":"double"}},"additionalProperties":false,"title":"Rate"},"nullable":true},"exportRates":{"type":"array","items":{"type":"object","properties":{"dayType":{"enum":[0,1,2],"type":"integer","format":"int32","title":"DayType"},"from":{"type":"string","format":"date-span"},"to":{"type":"string","format":"date-span"},"pricePerKwh":{"type":"number","format":"double"}},"additionalProperties":false,"title":"Rate"},"nullable":true}},"additionalProperties":false,"title":"PlanDetails"},"planCostDetails":{"type":"object","properties":{"totalCosts":{"type":"object","properties":{"total":{"type":"number","format":"double"},"import":{"type":"number","format":"double"},"export":{"type":"number","format":"double"},"dailyFees":{"type":"number","format":"double"}},"additionalProperties":false,"title":"PlanCost"},"monthlyCost":{"type":"object","additionalProperties":{"type":"object","properties":{"total":{"type":"number","format":"double"},"import":{"type":"number","format":"double"},"export":{"type":"number","format":"double"},"dailyFees":{"type":"number","format":"double"}},"additionalProperties":false,"title":"PlanCost"}}},"additionalProperties":false,"title":"PlanCosts"}},"additionalProperties":false,"description":"An evaluated power plan, either as part of a summary comparison or a detailed estimate for a specific plan.\nIncludes cost estimates, plan metadata, and optional tariff details.","title":"EvaluatedPlan"}}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

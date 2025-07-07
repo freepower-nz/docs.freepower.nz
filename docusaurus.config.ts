@@ -41,14 +41,15 @@ const config: Config = {
           hideable: false,
         },
       },
+      pagination: false,
       navbar: {
-        title: "My Site",
+        title: "Freepower API",
         logo: {
           alt: "My Site Logo",
           src: "img/logo.svg",
         },
         items: [
-          { to: '/docs/api', label: 'API', position: 'left' },
+          { to: '/docs', label: 'Documentation', position: 'left' },
         ],
       },
       footer: {

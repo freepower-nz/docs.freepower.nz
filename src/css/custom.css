@@ -115,3 +115,7 @@
   padding: 0 !important;
   margin: 10px 50px !important;
 }
+
+.pagination-nav {
+display: none;
+}

@@ -41,16 +41,13 @@ const config: Config = {
           hideable: false,
         },
       },
-      pagination: false,
+      
       navbar: {
-        title: "Freepower API",
+        title: "Freepower API Dcoumentation",
         logo: {
           alt: "My Site Logo",
           src: "img/logo.svg",
-        },
-        items: [
-          { to: '/docs', label: 'Documentation', position: 'left' },
-        ],
+        }
       },
       footer: {
         style: "dark",
@@ -215,7 +212,7 @@ const config: Config = {
         config: {
           api: {
             specPath: "openapi/freepower.yaml",
-            outputDir: "docs/api",
+            outputDir: "docs",
             sidebarOptions: {
               groupPathsBy: "tag",
               categoryLinkSource: "tag",

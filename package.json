@@ -16,7 +16,7 @@
     "clean-api-docs": "docusaurus clean-api-docs",
     "gen-api-docs:version": "docusaurus gen-api-docs:version",
     "clean-api-docs:version": "docusaurus clean-api-docs:version",
-    "generate-freepower-docs": "docusaurus gen-api-docs all --all-versions && rm -f docs/api/freepower-api.info.mdx"
+    "generate-freepower-docs": "swagger-cli bundle ./openapi/swagger.json --outfile ./openapi/openapi.yaml --type yaml && docusaurus gen-api-docs all --all-versions && rm -f docs/freepower-api.info.mdx"
   },
   "dependencies": {
     "@docusaurus/core": "3.7.0",

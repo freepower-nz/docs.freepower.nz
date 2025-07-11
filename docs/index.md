@@ -6,6 +6,7 @@ sidebar_position: 1
 
 # ICP API
 
+test 
 This section covers endpoints for finding and retrieving ICP (Installation Control Point) metadata.
 
 These endpoints help your app:

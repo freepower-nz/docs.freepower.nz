@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://test-freepower-api-241816836635.australia-southeast1.run.app"
+      "url": "https://try.freepower.nz/"
     }
   ],
   "paths": {

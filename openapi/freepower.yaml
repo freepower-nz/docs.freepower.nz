@@ -4,7 +4,7 @@ info:
   description: API for power plan estimation and comparison in NZ.
   version: 0.1.1
 servers:
-  - url: 'https://test-freepower-api-241816836635.australia-southeast1.run.app'
+  - url: 'https://try.freepower.nz/'
 paths:
   /api/actions/v1/find-icp:
     post:

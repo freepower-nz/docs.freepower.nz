@@ -7,7 +7,7 @@
     "start": "docusaurus start",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy",
+    "deploy": "USE_SSH=true docusaurus deploy",
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
@@ -16,7 +16,7 @@
     "clean-api-docs": "docusaurus clean-api-docs",
     "gen-api-docs:version": "docusaurus gen-api-docs:version",
     "clean-api-docs:version": "docusaurus clean-api-docs:version",
-    "generate-freepower-docs": "swagger-cli bundle ./openapi/swagger.json --outfile ./openapi/openapi.yaml --type yaml && docusaurus gen-api-docs all --all-versions && rm -f docs/freepower-api.info.mdx"
+    "generate-freepower-docs": "swagger-cli bundle ./openapi/swagger.json --outfile ./openapi/freepower.yaml --type yaml && docusaurus clean-api-docs all & docusaurus gen-api-docs all --all-versions && rm -f docs/freepower-api.info.mdx"
   },
   "dependencies": {
     "@docusaurus/core": "3.7.0",

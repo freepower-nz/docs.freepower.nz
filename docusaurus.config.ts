@@ -37,6 +37,12 @@ const config: Config = {
 
   themeConfig:
     {
+      openapi: {
+        // This will add a default `Authorization` header in the playground
+        defaultHeaders: {
+          Authorization: 'Bearer try_luDfeJKuqz3UD52pO5vNApIJ',
+        },
+      },
       docs: {
         sidebar: {
           hideable: false,

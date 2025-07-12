@@ -14,10 +14,11 @@
     "/api/actions/v1/find-icp": {
       "post": {
         "tags": [
-          "Freepower.Api"
+          "Actions",
+          "ICP"
         ],
+        "summary": "Find ICP by address",
         "description": "Attempts to find ICPs for a given address. If the address is vague, returns a list of address suggestions without ICPs. When a single address is confirmed, returns one or more ICPs matched to it. Use this before calling estimation or recommendation actions.",
-        "operationId": "FindIcpByAddress",
         "requestBody": {
           "content": {
             "application/json": {
@@ -50,10 +51,11 @@
     "/api/actions/v1/recommend-plans-for-icp": {
       "post": {
         "tags": [
-          "Freepower.Api"
+          "Actions"
         ],
+        "summary": "Recommend best plans for Icp",
         "description": "Recommends the cheapest power plans for a given ICP using average usage in the region. Ideal for quick checks when no personal data is available. Use `/find-icp` if you need to look up your ICP by address.",
-        "operationId": "RecommendPlansForIcp",
+        "operationId": "",
         "requestBody": {
           "content": {
             "application/json": {
@@ -86,10 +88,11 @@
     "/api/actions/v1/recommend-plans-for-power-bill": {
       "post": {
         "tags": [
-          "Freepower.Api"
+          "Actions",
+          "Power Bill"
         ],
+        "summary": "Recommend best plans for power bill",
         "description": "Recommends the cheapest power plans based on an uploaded PDF power bill. No further input is needed if parsing succeeds. If parsing fails or is partial, try extracting key fields locally and use /recommend-plans-for-what-you-tell-me instead.",
-        "operationId": "RecommendPlansForPowerBill",
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -134,10 +137,10 @@
     "/api/actions/v1/recommend-plans-for-what-you-tell-me": {
       "post": {
         "tags": [
-          "Freepower.Api"
+          "Actions"
         ],
+        "summary": "Recommend best plans for what you tell me",
         "description": "Recommends power plans based on user-provided info like household size, usage habits, or lifestyle. Use this when no bill or meter data is available, or if bill parsing fails and usage must be estimated from locally extracted data.",
-        "operationId": "RecommendPlansForWhatYouTellMe",
         "requestBody": {
           "content": {
             "application/json": {
@@ -170,10 +173,10 @@
     "/api/v1/icps/{icpId}/plans": {
       "get": {
         "tags": [
-          "Freepower.Api"
+          "Actions"
         ],
+        "summary": "Get all plans available for icp",
         "description": "Returns general info about all publicly available power plans for the given ICP/address, including tariff structures, bonuses, retailer links, and descriptions. Use this to explore what plans exist — not for cost or usage-based recommendations. For price comparisons or plan recommendations, use the recommend-plans-for-icp endpoint.",
-        "operationId": "GetPlansForIcp",
         "parameters": [
           {
             "name": "icpId",
@@ -222,10 +225,10 @@
     "/api/v1/power-bills/actions/parse": {
       "post": {
         "tags": [
-          "Freepower.Api"
+          "Actions"
         ],
+        "summary": "Parse power bill",
         "description": "Parses a power bill PDF and extracts structured data such as usage and billing details. This helper endpoint is for internal use only and must not be used for estimations or accessed by LLMs.",
-        "operationId": "ParsePowerBill",
         "requestBody": {
           "content": {
             "multipart/form-data": {

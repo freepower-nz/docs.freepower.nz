@@ -8,44 +8,74 @@ const sidebar: SidebarsConfig = {
     },
     {
       type: "category",
-      label: "Freepower.Api",
+      label: "Actions",
       items: [
         {
           type: "doc",
           id: "find-icp-by-address",
-          label: "FindIcpByAddress",
+          label: "Find ICP by address",
           className: "api-method post",
         },
         {
           type: "doc",
-          id: "recommend-plans-for-icp",
-          label: "RecommendPlansForIcp",
+          id: "recommend-best-plans-for-icp",
+          label: "Recommend best plans for Icp",
           className: "api-method post",
         },
         {
           type: "doc",
-          id: "recommend-plans-for-power-bill",
-          label: "RecommendPlansForPowerBill",
+          id: "recommend-best-plans-for-power-bill",
+          label: "Recommend best plans for power bill",
           className: "api-method post",
         },
         {
           type: "doc",
-          id: "recommend-plans-for-what-you-tell-me",
-          label: "RecommendPlansForWhatYouTellMe",
+          id: "recommend-best-plans-for-what-you-tell-me",
+          label: "Recommend best plans for what you tell me",
           className: "api-method post",
         },
         {
           type: "doc",
-          id: "get-plans-for-icp",
-          label: "GetPlansForIcp",
+          id: "get-all-plans-available-for-icp",
+          label: "Get all plans available for icp",
           className: "api-method get",
         },
         {
           type: "doc",
           id: "parse-power-bill",
-          label: "ParsePowerBill",
+          label: "Parse power bill",
           className: "api-method post",
         },
+      ],
+    },
+    {
+      type: "category",
+      label: "ICP",
+      items: [
+        {
+          type: "doc",
+          id: "find-icp-by-address",
+          label: "Find ICP by address",
+          className: "api-method post",
+        },
+      ],
+    },
+    {
+      type: "category",
+      label: "Power Bill",
+      items: [
+        {
+          type: "doc",
+          id: "recommend-best-plans-for-power-bill",
+          label: "Recommend best plans for power bill",
+          className: "api-method post",
+        },
+      ],
+    },
+    {
+      type: "category",
+      label: "Freepower.Api",
+      items: [
         {
           type: "doc",
           id: "get-privacy-policy",

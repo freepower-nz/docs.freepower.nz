@@ -27,6 +27,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/IcpAddress'
+      x-openai-isConsequential: true
       x-llm-friendly: true
   /api/actions/v1/recommend-plans-for-icp:
     post:
@@ -47,6 +48,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PlanRecommendationResult'
+      x-openai-isConsequential: true
       x-llm-friendly: true
       x-llm-primary-fields:
         - Total
@@ -77,6 +79,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PlanRecommendationForPowerBillResult'
+      x-openai-isConsequential: true
       x-llm-primary-fields:
         - Total
   /api/actions/v1/recommend-plans-for-what-you-tell-me:
@@ -98,6 +101,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PlanRecommendationResult'
+      x-openai-isConsequential: true
       x-llm-friendly: true
       x-llm-primary-fields:
         - Total
@@ -130,6 +134,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/EvaluatedPlan'
+      x-openai-isConsequential: true
       x-llm-primary-fields:
         - Total
   /api/v1/power-bills/actions/parse:
@@ -159,6 +164,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PowerBill'
+      x-openai-isConsequential: true
   /privacy-policy:
     get:
       tags:
@@ -169,6 +175,7 @@ paths:
       responses:
         '200':
           description: OK
+      x-openai-isConsequential: true
       x-flow:
         - name: LegalInfo
           step: 1
@@ -194,6 +201,7 @@ paths:
                 type: array
                 items:
                   type: string
+      x-openai-isConsequential: true
       x-flow:
         - name: Compares all available plans for given address and sorts them by power cost ascending
           step: 1
@@ -220,6 +228,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/IcpSearch'
+      x-openai-isConsequential: true
       x-flow:
         - name: Compares all available plans for given address and sorts them by power cost ascending
           step: 2
@@ -244,6 +253,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Icp'
+      x-openai-isConsequential: true
       x-llm-friendly: true
   '/api/v1/icps/{icpId}/cost-estimations':
     post:
@@ -280,6 +290,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CostEstimationResponse'
+      x-openai-isConsequential: true
       x-llm-primary-fields:
         - Total
   /api/v1/usage-estimations:
@@ -300,6 +311,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Onion'
+      x-openai-isConsequential: true
   /api/v1/cost-estimations:
     post:
       tags:
@@ -329,6 +341,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CostEstimationResponse'
+      x-openai-isConsequential: true
       x-llm-primary-fields:
         - Total
 components:
@@ -938,3 +951,10 @@ components:
       description: |-
         Represents an estimated electricity usage profile based on annual consumption,
         including monthly breakdowns and a normalized pattern for a typical day's usage.
+  securitySchemes:
+    Bearer:
+      type: http
+      description: 'Custom bearer token. Use ''Bearer {token}'' in the Authorization header'
+      scheme: bearer
+security:
+  - Bearer: []

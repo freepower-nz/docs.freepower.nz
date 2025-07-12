@@ -43,6 +43,7 @@
             }
           }
         },
+        "x-openai-isConsequential": true,
         "x-llm-friendly": true
       }
     },
@@ -75,6 +76,7 @@
             }
           }
         },
+        "x-openai-isConsequential": true,
         "x-llm-friendly": true,
         "x-llm-primary-fields": [
           "Total"
@@ -123,6 +125,7 @@
             }
           }
         },
+        "x-openai-isConsequential": true,
         "x-llm-primary-fields": [
           "Total"
         ]
@@ -157,6 +160,7 @@
             }
           }
         },
+        "x-openai-isConsequential": true,
         "x-llm-friendly": true,
         "x-llm-primary-fields": [
           "Total"
@@ -209,6 +213,7 @@
             }
           }
         },
+        "x-openai-isConsequential": true,
         "x-llm-primary-fields": [
           "Total"
         ]
@@ -255,7 +260,8 @@
               }
             }
           }
-        }
+        },
+        "x-openai-isConsequential": true
       }
     },
     "/privacy-policy": {
@@ -271,6 +277,7 @@
             "description": "OK"
           }
         },
+        "x-openai-isConsequential": true,
         "x-flow": [
           {
             "name": "LegalInfo",
@@ -312,6 +319,7 @@
             }
           }
         },
+        "x-openai-isConsequential": true,
         "x-flow": [
           {
             "name": "Compares all available plans for given address and sorts them by power cost ascending",
@@ -356,6 +364,7 @@
             }
           }
         },
+        "x-openai-isConsequential": true,
         "x-flow": [
           {
             "name": "Compares all available plans for given address and sorts them by power cost ascending",
@@ -397,6 +406,7 @@
             }
           }
         },
+        "x-openai-isConsequential": true,
         "x-llm-friendly": true
       }
     },
@@ -455,6 +465,7 @@
             }
           }
         },
+        "x-openai-isConsequential": true,
         "x-llm-primary-fields": [
           "Total"
         ]
@@ -487,7 +498,8 @@
               }
             }
           }
-        }
+        },
+        "x-openai-isConsequential": true
       }
     },
     "/api/v1/cost-estimations": {
@@ -536,6 +548,7 @@
             }
           }
         },
+        "x-openai-isConsequential": true,
         "x-llm-primary-fields": [
           "Total"
         ]
@@ -1326,6 +1339,18 @@
         "additionalProperties": false,
         "description": "Represents an estimated electricity usage profile based on annual consumption,\nincluding monthly breakdowns and a normalized pattern for a typical day's usage."
       }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "description": "Custom bearer token. Use 'Bearer {token}' in the Authorization header",
+        "scheme": "bearer"
+      }
     }
-  }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
 }

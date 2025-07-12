@@ -50,7 +50,7 @@ const config: Config = {
       },
       
       navbar: {
-        title: "Freepower API Dcoumentation",
+        title: "Freepower API Documentation",
         logo: {
           alt: "My Site Logo",
           src: "img/logo.svg",

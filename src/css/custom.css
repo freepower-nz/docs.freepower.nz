@@ -119,3 +119,11 @@
 .pagination-nav {
 display: none;
 }
+
+.openapi-tabs__code-container {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+.openapi-tabs__code-list-container {
+  display: none !important;
+}

@@ -55,13 +55,6 @@ import React, { useEffect, useState } from 'react';
 export function TryTokenViewer() {
   const [token, setToken] = useState(null);
 
-  useEffect(() => {
-    fetch('https://docs.freepower.nz/try-token.txt')
-      .then(res => res.text())
-      .then(setToken)
-      .catch(() => setToken('Unavailable'));
-  }, []);
-
   return (
     <div style={{ background: '#f0f4f8', padding: '1rem', borderRadius: '8px', marginTop: '1rem' }}>
       <strong>🔑 Current Token (place it into 'Authorisation' request header):</strong>

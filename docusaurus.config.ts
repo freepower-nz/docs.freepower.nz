@@ -5,14 +5,15 @@ import type * as Preset from "@docusaurus/preset-classic";
 import type { Config } from "@docusaurus/types";
 
 const config: Config = {
-  title: "My Site",
-  tagline: "Dinosaurs are cool",
+  title: "Free Power NZ",
+  tagline: "Powered by electricity, opened by Freepower.",
   url: "https://docs.freepower.nz",
   baseUrl: "/",
   trailingSlash: false,
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon.ico",
+
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.

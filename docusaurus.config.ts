@@ -20,6 +20,10 @@ const config: Config = {
   organizationName: "freepower-nz", // Usually your GitHub org/user name.
   projectName: "docs.freepower.nz", // Usually your repo name.
 
+  scripts: [
+    { src: "/set-fetch-timeout.js", async: true },
+  ],
+
   presets: [
     [
       "classic",

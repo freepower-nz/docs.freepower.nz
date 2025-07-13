@@ -1,0 +1,73 @@
+---
+title: API
+---
+
+This is a public API, so please use it responsibly: be kind to our servers, avoid excessive traffic, and don’t scrape or abuse the playground.
+Whether you’re building a personal tool, AI assistant, or next-gen pricing engine — we’re stoked to have you here.
+
+## Environments
+
+We provide two environments for developers working with the Freepower API:
+
+- [`https://try.freepower.nz/api`](https://try.freepower.nz/api) – **Playground / Testing**
+- [`https://api.freepower.nz/api`](https://api.freepower.nz/api) – **Production**
+
+---
+
+### 🧪 Testing Environment (`try.freepower.nz`)
+
+The Testing environment behaves **exactly the same** as our production API in terms of endpoints and authentication. However, the **underlying data** may be **mocked or limited**, especially:
+
+- Address search results may be stubbed or incomplete.
+- Pricing or ICP data may be pre-cached or anonymised.
+- We do this to prevent abuse and ensure the playground remains lightweight and open.
+
+> ⚠️ **Note:** The API token used in the try environment is **periodically regenerated**.  
+> This makes it **unsuitable for real-time or automated integrations** — use it only for manual testing or prototyping.
+
+<TryTokenViewer />
+
+---
+
+### 🔐 Getting a Production Token
+
+When you're ready to go live and access full production data, email us at 📧 [`developers@freepower.nz`](mailto:developers@freepower.nz)
+
+Please let us know:
+
+- What you're building
+- The expected usage (how many requests, types of endpoints, etc.)
+
+We'll issue you a **private API token**.
+
+---
+
+## 💸 Pricing & Access
+
+- The Freepower API is **free for personal use and hobby projects**.
+- We have a **very friendly pricing policy** for commercial use.
+- We're also proud to support any project aligned with the **#openenergy** movement or efforts to help **New Zealand energy customers**.
+
+Just reach out — we’re keen to help.
+
+import React, { useEffect, useState } from 'react';
+
+export function TryTokenViewer() {
+  const [token, setToken] = useState(null);
+
+  useEffect(() => {
+    fetch('https://docs.freepower.nz/try-token.txt')
+      .then(res => res.text())
+      .then(setToken)
+      .catch(() => setToken('Unavailable'));
+  }, []);
+
+  return (
+    <div style={{ background: '#f0f4f8', padding: '1rem', borderRadius: '8px', marginTop: '1rem' }}>
+      <strong>🔑 Current Token (place it into 'Authorisation' request header):</strong>
+      <div style={{ fontFamily: 'monospace', marginTop: '0.5rem' }}>
+        try_luDfeJKuqz3UD52pO5vNApIJ
+      </div>
+    </div>
+  );
+}

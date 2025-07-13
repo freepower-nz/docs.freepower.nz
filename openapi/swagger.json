@@ -3,177 +3,18 @@
   "info": {
     "title": "Freepower API",
     "description": "API for power plan estimation and comparison in NZ.",
-    "version": "0.1.1"
+    "version": "0.2.0"
   },
   "servers": [
     {
-      "url": "https://try.freepower.nz/"
+      "url": "https://try.freepower.nz"
     }
   ],
   "paths": {
-    "/api/actions/v1/find-icp": {
-      "post": {
-        "tags": [
-          "Actions",
-          "ICP"
-        ],
-        "summary": "Find ICP by address",
-        "description": "Attempts to find ICPs for a given address. If the address is vague, returns a list of address suggestions without ICPs. When a single address is confirmed, returns one or more ICPs matched to it. Use this before calling estimation or recommendation actions.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/FindIcpRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/IcpAddress"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "x-openai-isConsequential": true,
-        "x-llm-friendly": true
-      }
-    },
-    "/api/actions/v1/recommend-plans-for-icp": {
-      "post": {
-        "tags": [
-          "Actions"
-        ],
-        "summary": "Recommend best plans for Icp",
-        "description": "Recommends the cheapest power plans for a given ICP using average usage in the region. Ideal for quick checks when no personal data is available. Use `/find-icp` if you need to look up your ICP by address.",
-        "operationId": "",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RecommendPlansForIcpRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PlanRecommendationResult"
-                }
-              }
-            }
-          }
-        },
-        "x-openai-isConsequential": true,
-        "x-llm-friendly": true,
-        "x-llm-primary-fields": [
-          "Total"
-        ]
-      }
-    },
-    "/api/actions/v1/recommend-plans-for-power-bill": {
-      "post": {
-        "tags": [
-          "Actions",
-          "Power Bill"
-        ],
-        "summary": "Recommend best plans for power bill",
-        "description": "Recommends the cheapest power plans based on an uploaded PDF power bill. No further input is needed if parsing succeeds. If parsing fails or is partial, try extracting key fields locally and use /recommend-plans-for-what-you-tell-me instead.",
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "required": [
-                  "file"
-                ],
-                "type": "object",
-                "properties": {
-                  "file": {
-                    "type": "string",
-                    "format": "binary"
-                  }
-                }
-              },
-              "encoding": {
-                "file": {
-                  "style": "form"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PlanRecommendationForPowerBillResult"
-                }
-              }
-            }
-          }
-        },
-        "x-openai-isConsequential": true,
-        "x-llm-primary-fields": [
-          "Total"
-        ]
-      }
-    },
-    "/api/actions/v1/recommend-plans-for-what-you-tell-me": {
-      "post": {
-        "tags": [
-          "Actions"
-        ],
-        "summary": "Recommend best plans for what you tell me",
-        "description": "Recommends power plans based on user-provided info like household size, usage habits, or lifestyle. Use this when no bill or meter data is available, or if bill parsing fails and usage must be estimated from locally extracted data.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RecommendPlansForWhatYouTellMeRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PlanRecommendationResult"
-                }
-              }
-            }
-          }
-        },
-        "x-openai-isConsequential": true,
-        "x-llm-friendly": true,
-        "x-llm-primary-fields": [
-          "Total"
-        ]
-      }
-    },
     "/api/v1/icps/{icpId}/plans": {
       "get": {
         "tags": [
-          "Actions"
+          "Core Services"
         ],
         "summary": "Get all plans available for icp",
         "description": "Returns general info about all publicly available power plans for the given ICP/address, including tariff structures, bonuses, retailer links, and descriptions. Use this to explore what plans exist — not for cost or usage-based recommendations. For price comparisons or plan recommendations, use the recommend-plans-for-icp endpoint.",
@@ -225,7 +66,7 @@
     "/api/v1/power-bills/actions/parse": {
       "post": {
         "tags": [
-          "Actions"
+          "Core Services"
         ],
         "summary": "Parse power bill",
         "description": "Parses a power bill PDF and extracts structured data such as usage and billing details. This helper endpoint is for internal use only and must not be used for estimations or accessed by LLMs.",
@@ -267,36 +108,13 @@
         "x-openai-isConsequential": true
       }
     },
-    "/privacy-policy": {
-      "get": {
-        "tags": [
-          "Freepower.Api"
-        ],
-        "summary": "Get Free Power’s Privacy Policy",
-        "description": "Returns the full privacy policy in HTML format, explaining what data is collected, how it’s used, and your rights under New Zealand law.",
-        "operationId": "GetPrivacyPolicy",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        },
-        "x-openai-isConsequential": true,
-        "x-flow": [
-          {
-            "name": "LegalInfo",
-            "step": 1
-          }
-        ],
-        "x-llm-friendly": true
-      }
-    },
     "/api/v1/address-search": {
       "get": {
         "tags": [
-          "Freepower.Api"
+          "Core Services"
         ],
+        "summary": "Address search & validator",
         "description": "Search for a valid address - useful for user input when the address can be malformatted or incomplete, this endpoint returns formatted address which can be used for ICP search.",
-        "operationId": "AddressSearch",
         "parameters": [
           {
             "name": "address",
@@ -322,26 +140,16 @@
             }
           }
         },
-        "x-openai-isConsequential": true,
-        "x-flow": [
-          {
-            "name": "Compares all available plans for given address and sorts them by power cost ascending",
-            "step": 1
-          },
-          {
-            "name": "Finds all plans available at given address",
-            "step": 1
-          }
-        ]
+        "x-openai-isConsequential": true
       }
     },
     "/api/v1/icps": {
       "get": {
         "tags": [
-          "Freepower.Api"
+          "Core Services"
         ],
+        "summary": "Find ICP for address",
         "description": "Needs a validated address to perform a search for icp - can return multiple icps",
-        "operationId": "FindIcpForGivenAddress",
         "parameters": [
           {
             "name": "address",
@@ -367,26 +175,16 @@
             }
           }
         },
-        "x-openai-isConsequential": true,
-        "x-flow": [
-          {
-            "name": "Compares all available plans for given address and sorts them by power cost ascending",
-            "step": 2
-          },
-          {
-            "name": "Finds all plans available at given address",
-            "step": 2
-          }
-        ]
+        "x-openai-isConsequential": true
       }
     },
     "/api/v1/icps/{icpId}": {
       "get": {
         "tags": [
-          "Freepower.Api"
+          "Core Services"
         ],
+        "summary": "Get ICP details",
         "description": "Returns detailed information about a specific ICP, such as metering setup and network configuration. Useful for understanding why some addresses receive better or worse pricing options.",
-        "operationId": "GetIcpDetails",
         "parameters": [
           {
             "name": "icpId",
@@ -413,13 +211,61 @@
         "x-llm-friendly": true
       }
     },
+    "/privacy-policy": {
+      "get": {
+        "tags": [
+          "Core Services"
+        ],
+        "summary": "Get Free Power’s Privacy Policy",
+        "description": "Returns the full privacy policy in HTML format, explaining what data is collected, how it’s used, and your rights under New Zealand law.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "x-openai-isConsequential": true,
+        "x-llm-friendly": true
+      }
+    },
+    "/api/v1/usage-estimations": {
+      "post": {
+        "tags": [
+          "Power Tools"
+        ],
+        "summary": "Generate usage estimation for a household",
+        "description": "Estimates typical household electricity usage based on location, household profile, and optional consumption hints. You can provide data from a power bill or just rough usage figures (e.g., '40 kWh over 3 days in June'). This is useful for generating realistic usage patterns when detailed smart meter data is unavailable.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EstimatedUsageRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Onion"
+                }
+              }
+            }
+          }
+        },
+        "x-openai-isConsequential": true
+      }
+    },
     "/api/v1/icps/{icpId}/cost-estimations": {
       "post": {
         "tags": [
-          "Freepower.Api"
+          "Power Tools"
         ],
-        "description": "Estimate usage based on household profile",
-        "operationId": "GetCostEstimationsForIcpAndUsage",
+        "summary": "Estimate power costs for a specific ICP",
+        "description": "Calculates estimated yearly electricity costs for all publicly available plans at a given ICP, using either estimated or detailed usage data (e.g. smart meter or power bill). Returns real plans currently available for that ICP, including pricing and plan details.",
         "parameters": [
           {
             "name": "icpId",
@@ -474,43 +320,13 @@
         ]
       }
     },
-    "/api/v1/usage-estimations": {
-      "post": {
-        "tags": [
-          "Freepower.Api"
-        ],
-        "operationId": "GetUsageEstimationForHousehold",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/EstimatedUsageRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Onion"
-                }
-              }
-            }
-          }
-        },
-        "x-openai-isConsequential": true
-      }
-    },
     "/api/v1/cost-estimations": {
       "post": {
         "tags": [
-          "Freepower.Api"
+          "Power Tools"
         ],
-        "operationId": "GetCostEstimationsForUsageAndPlans",
+        "summary": "Estimate power costs for custom or unofficial plans",
+        "description": "Calculates estimated electricity costs for a set of custom, unofficial, or historical plans using estimated or detailed usage data. Useful for testing pricing scenarios, comparing legacy plans, or designing new offers with modified rates or fees.",
         "parameters": [
           {
             "name": "from",
@@ -552,6 +368,163 @@
           }
         },
         "x-openai-isConsequential": true,
+        "x-llm-primary-fields": [
+          "Total"
+        ]
+      }
+    },
+    "/api/actions/v1/find-icp": {
+      "post": {
+        "tags": [
+          "Smart Actions"
+        ],
+        "summary": "Find ICP by address",
+        "description": "Attempts to find ICPs for a given address. If the address is vague, returns a list of address suggestions without ICPs. When a single address is confirmed, returns one or more ICPs matched to it. Use this before calling estimation or recommendation actions.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FindIcpRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/IcpAddress"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-openai-isConsequential": true,
+        "x-llm-friendly": true
+      }
+    },
+    "/api/actions/v1/recommend-plans-for-icp": {
+      "post": {
+        "tags": [
+          "Smart Actions"
+        ],
+        "summary": "Recommend best plans for Icp",
+        "description": "Recommends the cheapest power plans for a given ICP using average usage in the region. Ideal for quick checks when no personal data is available. Use `/find-icp` if you need to look up your ICP by address.",
+        "operationId": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecommendPlansForIcpRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanRecommendationResult"
+                }
+              }
+            }
+          }
+        },
+        "x-openai-isConsequential": true,
+        "x-llm-friendly": true,
+        "x-llm-primary-fields": [
+          "Total"
+        ]
+      }
+    },
+    "/api/actions/v1/recommend-plans-for-power-bill": {
+      "post": {
+        "tags": [
+          "Smart Actions"
+        ],
+        "summary": "Recommend best plans for power bill",
+        "description": "Recommends the cheapest power plans based on an uploaded PDF power bill. No further input is needed if parsing succeeds. If parsing fails or is partial, try extracting key fields locally and use /recommend-plans-for-what-you-tell-me instead.",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "required": [
+                  "file"
+                ],
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "file": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanRecommendationForPowerBillResult"
+                }
+              }
+            }
+          }
+        },
+        "x-openai-isConsequential": true,
+        "x-llm-primary-fields": [
+          "Total"
+        ]
+      }
+    },
+    "/api/actions/v1/recommend-plans-for-what-you-tell-me": {
+      "post": {
+        "tags": [
+          "Smart Actions"
+        ],
+        "summary": "Recommend best plans for what you tell me",
+        "description": "Recommends power plans based on user-provided info like household size, usage habits, or lifestyle. Use this when no bill or meter data is available, or if bill parsing fails and usage must be estimated from locally extracted data.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecommendPlansForWhatYouTellMeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlanRecommendationResult"
+                }
+              }
+            }
+          }
+        },
+        "x-openai-isConsequential": true,
+        "x-llm-friendly": true,
         "x-llm-primary-fields": [
           "Total"
         ]

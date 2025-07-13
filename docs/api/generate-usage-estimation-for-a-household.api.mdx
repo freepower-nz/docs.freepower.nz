@@ -1,13 +1,13 @@
 ---
-id: get-usage-estimation-for-household
-title: "GetUsageEstimationForHousehold"
-description: "GetUsageEstimationForHousehold"
-sidebar_label: "GetUsageEstimationForHousehold"
+id: generate-usage-estimation-for-a-household
+title: "Generate usage estimation for a household"
+description: "Estimates typical household electricity usage based on location, household profile, and optional consumption hints. You can provide data from a power bill or just rough usage figures (e.g., '40 kWh over 3 days in June'). This is useful for generating realistic usage patterns when detailed smart meter data is unavailable."
+sidebar_label: "Generate usage estimation for a household"
 hide_title: true
 hide_table_of_contents: true
-api: eJy1Vktz0zAQ/isaXbjk4XRggNxCy6MDQzukvZTpQbE3sUCWhCSXppn8d3alxE7TtPUwkEPiSPve79v1igex8Hz8nX9wANb8BjeYWMmve9xYcCJIo08LPuYfIVx6sYD3PsgqHn8w7pOpPZRGFbzHHfyqwYd3pljy8YrnRgfQgR6FtUrmUWf4wxtNZz4voRL0FJYW0L6Z/YA8oB3ryHGQ4KOuA0H+GzkfnNQLvu7xcuv83Jm5VPC8sXT7mKmpvDtw2+O6VkrMyH5wNaC0uMHCLOBESLU8raxxYUdN19UMHKrNjcM64UlhatI+YMgbJdzEObHc893dCIVTFJJqK9T5TrZzoTz0eJCBZPmn/WKhYu1jFqFDG2RME4ouMaJluO0ufqAuGGpxIh0GopZ/aWLuTHWoma2qCNBHKMd4g+kq27XeU1FZBZdNhTsrbvgFRdT9lkiF6uvEMKxK0STpwFujfWrRUZbRTwE+d9KSH7R29hnz+EdUVGIJbodHyE1ELorJAJV/Xl+L6jD7pJ+Wch5S/5r7mTEKhOb/sZnIQGXCwdAP9+rZ1B8nxbozAr5QnXl3+TNNvV4nD7d9lNNC9qU/JmggfHSQQiXM9Pbg8exQh1tEjsdzWhEr/hOQj4/76PEboeotCXGFVBBKQ9vDGh8BIUKJ/4bCyuHNaBgHUB8a5x5FPLibCDN0VzuMm5chWD8eDoNbDubNktJ3Q04uPOS1k2EZFd4B7guHj9e7V1MCeGrfVqBpGBnn+2U5rn0wFZtFYRbMT9ADdumBvUj6bBXP1i+Y1CyUwCY15unkXcyClSCKCILIrIjl5JYaRKz71q7K97dxUOyuuhazT2y4+zJpfbSHhzZU9nDfZPtLoB3z2e4Qz/ZHcrblJE6do5f97HX/6O3F6NX41Wh89GaQvR5d8cTDx++pFlLPE1c3SG5eQdjk/PRBV/CMIa1YkrBKaNZChwldsNxUVjiJFabGfL0aECIRTEk/G4wGIyI9gbESup1JxAMWicBaJjCkAtvlwr1omkYEpMgQg5FxUkXErjY4/47jVlIII76p8z2sX1PzkBYot1rNhIdLp9ZrOkZ0OAL0NRHKyTQYEdOokKDVcvE4zfb+BUXT8O/hnF/3thqTPAcbnpTdZe752fQChWeb17rKFKTjxG965cPvMef0qphSQoF4RstCL2rMGO+TTfr8Aba0mys=
+api: eJztVk1v4zYQ/SsEL2kBW1bSXWzrWzbZtmmLTbBJUHQXOdDS2GJCkSpJOXEM//c+kv5QHGdjFNtbc3AkcWY4X+/NzLkXE8eHX/iFuSfLroxRjt/0eEmusLLx0mg+5B+cl7Xw5JifNbIQilWmdVQZVTJSVHgrC+lnrHViQmwkHJXMaKZMIYKFXke8sWYsFfWY0JCJF8BcYbRr6/jGKqm9y9hfpmWF0EFhKktipfCCja2pmWBNdHYklWLGstvWeWZNO6mWDozlpLVw9jvKJlmPHbzJ2d2fFTNTKP0AQzPHpGa/tZoOvs/YVSXx7qBL41axMSxOSJOF63rCLAklEX6xtN0I78lqx+4r0qwkLxBNyVwtrGc14Sx5GgxqMcWpGCnKeI9b+rsl59+bcsaHc46QPWkfHkXTKJlSNbh1IeNz7oqKahGekHJCDczoFomGHSSkIesluagLB8/KjpxDMfSEL3p8nfSLlPPXjaXTl0xdyscdpz2uWxWD5ENvW4K0QKKRq1MEPzurG2N9R0239Ygs1JBo9BS+lKYN2jsMOaOEPbZWzLbu3t9IcKcsZeqzi060Y6Ec9biXPsjyX7eTBcVY8VNU8/XMyRgmlfv4CMv0sL/4jrzA1fJUWjiiZv/SREDSrmJuVIH3PmAf/fVmX9l9830p6kbR9TrDeyuuuKiMup8SqKC+SAhDVsp1kCCBBsySSnSU5+HfU2Y7/x1xfCMoKjEj28ERsInOhZj0VLvX9bWod6NPustKjn2q3/p8BK4mofl/WEwgUBm/0/XdtXo19JdBsdi7A/4Ieeb7y5/rUOtFuuGhDzktZF+6k9AaaB/tpVCpZwIy0QoOCmEqzvkdAWAvK/X4VKh2hSrMTUyAyqABeWNcrLDwFd4GopGD6eEgMkqfUgvHS5BistPYN7iutXCEV943bjgYeDvLxpYojrtMP/Jwg6OitRi2Uf49gf8tHm+6R5ehYVM5VgLrAgTbfHu+n2CCYrCOojDz5o50xq4dsYOkz+bx2+IgzE1fETtuEaaVjyJNbBJlLGpESuzNdG1IeEDRp83o+/AQgd8dXZse/MrEeiqTxsHm466Jkz+fH/k2qW9oO++Scr5NsfkKY2CRozf9/F3/6Kerw7fDt4fDox+z/N3hZ55w9fJ5yIXU44S9ZWf+vCouO744e1YVfIvbSJJoFJahTefE/akwdSOsRIZDYT5+DmtG6KWkn2dHWR5AHHqxFnrDMfyXtODQcqnpmA0Xis2+tu1UZ2/5fyv8Flvhsr09eGeAEsvI55EG5kvy+IKhJENhD/mye58QyE2ABLgGcvN5SPK1VYtF+AzM2UATN4GlrEzjA0wBhQTYDcGdpKL2r4I3a1J7Pg0XvZXGcVFQ478q26XDi/PLKwiPlstvbcqgY8V9WIzxO+R4SIWPvBW/hZGqJy0ixnmyGf7+AbdpbVk=
 sidebar_class_name: "post api-method"
-info_path: freepower-api
+info_path: api/freepower-api
 custom_edit_url: null
 ---
 
@@ -22,7 +22,7 @@ import Heading from "@theme/Heading";
 <Heading
   as={"h1"}
   className={"openapi__heading"}
-  children={"GetUsageEstimationForHousehold"}
+  children={"Generate usage estimation for a household"}
 >
 </Heading>
 
@@ -36,7 +36,7 @@ import Heading from "@theme/Heading";
 
 
 
-GetUsageEstimationForHousehold
+Estimates typical household electricity usage based on location, household profile, and optional consumption hints. You can provide data from a power bill or just rough usage figures (e.g., '40 kWh over 3 days in June'). This is useful for generating realistic usage patterns when detailed smart meter data is unavailable.
 
 <Heading
   id={"request"}

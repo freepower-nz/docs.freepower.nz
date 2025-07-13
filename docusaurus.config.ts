@@ -97,7 +97,7 @@ const config: Config = {
         config: {
           api: {
             specPath: "openapi/freepower.yaml",
-            outputDir: "docs",
+            outputDir: "docs/api",
             sidebarOptions: {
               groupPathsBy: "tag",
               categoryLinkSource: "tag",
